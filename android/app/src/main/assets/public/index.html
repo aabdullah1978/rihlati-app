@@ -1,0 +1,1551 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>رحلتي بعد التكميم</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&family=Aref+Ruqaa:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #F2F6F2;
+    --bg-alt: #E9F1EC;
+    --card: #FFFFFF;
+    --ink: #1E2C24;
+    --ink-soft: #52655A;
+    --teal: #2E5D4E;
+    --teal-deep: #1F4438;
+    --apricot: #E08A4B;
+    --apricot-soft: #F5DCC1;
+    --rose: #C1685E;
+    --line: #DCE8DF;
+    --done: #3A6B5C;
+    --radius: 20px;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color: transparent;}
+  html,body{margin:0; padding:0; background:var(--bg); color:var(--ink); font-family:'Tajawal',sans-serif; direction:rtl;}
+  body{padding-bottom:60px;}
+  h1,h2,h3{font-family:'Aref Ruqaa','Tajawal',serif; margin:0; color:var(--teal-deep);}
+  .wrap{max-width:520px; margin:0 auto; padding:18px 16px 40px;}
+
+  /* HERO */
+  .hero{
+    background: linear-gradient(160deg, var(--teal) 0%, var(--teal-deep) 100%);
+    border-radius: 0 0 32px 32px;
+    padding: 26px 20px 22px;
+    color: #F2F6F2;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::after{
+    content:"";
+    position:absolute; inset:0;
+    background: radial-gradient(circle at 85% -10%, rgba(255,255,255,0.12), transparent 55%);
+    pointer-events:none;
+  }
+  .hero-top{display:flex; justify-content:space-between; align-items:flex-start;}
+  .hero-eyebrow{font-size:13px; opacity:0.75; letter-spacing:0.5px;}
+  .day-count{font-size:52px; font-weight:900; font-family:'Aref Ruqaa',serif; line-height:1; margin-top:4px;}
+  .day-label{font-size:14px; opacity:0.85; margin-top:2px;}
+  .phase-pill{
+    display:inline-flex; align-items:center; gap:6px;
+    background: rgba(255,255,255,0.14);
+    border:1px solid rgba(255,255,255,0.25);
+    padding:7px 14px; border-radius:999px; font-size:13px; margin-top:14px;
+  }
+  .phase-pill .dot{width:8px;height:8px;border-radius:50%;background:var(--apricot);}
+
+  /* PATH */
+  .path{display:flex; align-items:center; margin-top:18px; gap:2px;}
+  .path-step{flex:1; text-align:center; position:relative;}
+  .path-step .stepbar{height:6px; border-radius:4px; background: rgba(255,255,255,0.18); margin-bottom:8px; overflow:hidden;}
+  .path-step .stepbar-fill{height:100%; background:var(--apricot); width:0%; transition:width .6s ease;}
+  .path-step.done .stepbar-fill{width:100%;}
+  .path-step.current .stepbar-fill{background:#fff;}
+  .path-step span{font-size:11px; opacity:0.85;}
+
+  /* CARD */
+  .card{
+    background:var(--card); border-radius:var(--radius);
+    padding:18px 18px 16px; margin-top:16px;
+    box-shadow: 0 1px 3px rgba(30,44,36,0.06), 0 8px 20px -14px rgba(30,44,36,0.18);
+    border:1px solid var(--line);
+  }
+  .card h2{font-size:20px; margin-bottom:10px; display:flex; align-items:center; gap:8px;}
+  .card h2 .ic{font-size:20px;}
+  .subtle{color:var(--ink-soft); font-size:13.5px; line-height:1.9;}
+
+  /* MEALS */
+  .meal-row{
+    display:flex; align-items:flex-start; gap:12px;
+    padding:12px 0; border-bottom:1px dashed var(--line);
+  }
+  .meal-row:last-child{border-bottom:none;}
+  .check{
+    flex:0 0 26px; width:26px; height:26px; border-radius:8px;
+    border:2px solid var(--teal); margin-top:2px;
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer; transition: all .15s ease; background:#fff;
+  }
+  .check.checked{background:var(--done); border-color:var(--done);}
+  .check.checked::after{content:"✓"; color:#fff; font-size:15px; font-weight:700;}
+  .meal-text{flex:1;}
+  .meal-name{font-weight:700; font-size:14.5px; color:var(--teal-deep);}
+  .meal-detail{font-size:13.5px; color:var(--ink-soft); margin-top:2px; line-height:1.7;}
+  .meal-detail.done{text-decoration: line-through; opacity:0.55;}
+  .meal-name.done{opacity:0.55;}
+
+  /* WATER */
+  .water-row{display:flex; align-items:center; justify-content:space-between; margin-top:6px;}
+  .cups{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px;}
+  .cup{
+    width:34px; height:38px; border-radius:6px 6px 10px 10px;
+    border:2px solid var(--apricot); background:var(--apricot-soft);
+    cursor:pointer; opacity:0.4; transition: all .15s ease;
+  }
+  .cup.filled{opacity:1; background:var(--apricot);}
+  .water-goal{font-size:13px; color:var(--ink-soft); margin-top:10px;}
+  .stat-big{font-size:26px; font-weight:900; color:var(--teal);}
+
+  /* PROTEIN */
+  .protein-bar-bg{height:14px; background:var(--bg-alt); border-radius:8px; overflow:hidden; margin-top:8px;}
+  .protein-bar-fill{height:100%; background: linear-gradient(90deg, var(--teal), var(--done)); border-radius:8px; transition: width .3s ease;}
+  .protein-controls{display:flex; align-items:center; gap:10px; margin-top:12px;}
+  .protein-controls button{
+    width:38px; height:38px; border-radius:10px; border:1px solid var(--line);
+    background:var(--bg-alt); font-size:18px; color:var(--teal-deep); cursor:pointer;
+  }
+
+  /* TIPS LIST */
+  ul.tips{margin:0; padding-inline-start:20px; font-size:13.5px; color:var(--ink-soft); line-height:2;}
+  ul.tips li::marker{color:var(--apricot);}
+
+  /* VITAMIN BANNER */
+  .banner{
+    display:flex; gap:12px; align-items:flex-start;
+    background: linear-gradient(135deg, #FDF1E4, #FBE4CE);
+    border:1px solid var(--apricot-soft); border-radius:16px; padding:14px;
+    margin-top:16px;
+  }
+  .banner .ic{font-size:22px;}
+  .banner b{color:#8A4A1E;}
+  .banner p{margin:4px 0 0; font-size:13px; color:#7A5230; line-height:1.8;}
+
+  /* TABS for food groups */
+  .tabs{display:flex; gap:6px; overflow-x:auto; padding-bottom:4px; margin-bottom:10px;}
+  .tab{
+    flex:0 0 auto; padding:8px 14px; border-radius:999px; font-size:13px;
+    background:var(--bg-alt); color:var(--teal-deep); cursor:pointer; white-space:nowrap;
+    border:1px solid transparent;
+  }
+  .tab.active{background:var(--teal); color:#fff;}
+  .tab-content{display:none; font-size:13.5px; color:var(--ink-soft); line-height:1.9;}
+  .tab-content.active{display:block;}
+
+  .foot{text-align:center; margin-top:26px; font-size:12px; color:var(--ink-soft); line-height:2;}
+  .foot a{color:var(--teal); text-decoration:none;}
+
+  .day-nav{display:flex; align-items:center; justify-content:space-between; margin-top:14px; gap:10px;}
+  .day-nav button{
+    background: rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.3);
+    color:#fff; padding:8px 16px; border-radius:12px; font-family:'Tajawal'; font-size:13px; cursor:pointer;
+  }
+  .day-nav button:disabled{opacity:0.35; cursor:default;}
+
+  .disclaimer{
+    background:#FBEFEF; border:1px solid #F1D6D6; border-radius:14px; padding:12px 14px;
+    font-size:12.5px; color:#8A3E3E; line-height:1.8; margin-top:16px;
+  }
+
+  /* TOAST */
+  #toast{
+    position:fixed; right:50%; top:18px; transform:translateX(50%) translateY(-30px);
+    background:var(--teal-deep); color:#fff; padding:10px 18px; border-radius:12px;
+    font-size:13.5px; box-shadow:0 8px 20px rgba(0,0,0,0.2); z-index:999;
+    opacity:0; pointer-events:none; transition: all .25s ease; display:flex; align-items:center; gap:8px;
+  }
+  #toast.show{ opacity:1; transform:translateX(50%) translateY(0); }
+  #toast .tick{
+    width:18px; height:18px; border-radius:50%; background:var(--apricot);
+    display:flex; align-items:center; justify-content:center; font-size:11px; flex:0 0 auto;
+  }
+
+  /* RESET / SAVE BUTTONS */
+  .reset-row{display:flex; justify-content:space-between; gap:10px; margin-top:14px;}
+  .save-btn{
+    flex:1; background:var(--teal); color:#fff; border:none;
+    border-radius:12px; padding:12px 14px; font-family:'Tajawal'; font-size:14px; font-weight:700; cursor:pointer;
+    display:flex; align-items:center; justify-content:center; gap:8px;
+  }
+  .save-btn:active{ background:var(--teal-deep); }
+  .reset-btn{
+    flex:1; background:var(--bg-alt); color:var(--teal-deep); border:1px solid var(--line);
+    border-radius:12px; padding:12px 14px; font-family:'Tajawal'; font-size:13.5px; cursor:pointer;
+    display:flex; align-items:center; justify-content:center; gap:6px;
+  }
+  .reset-btn:active{ background:var(--line); }
+
+  /* CONFIRM SHEET */
+  .confirm-overlay{
+    position:fixed; inset:0; background:rgba(20,30,25,0.45); z-index:1000;
+    display:none; align-items:flex-end; justify-content:center;
+  }
+  .confirm-overlay.show{ display:flex; }
+  .confirm-sheet{
+    background:#fff; width:100%; max-width:520px; border-radius:22px 22px 0 0;
+    padding:22px 20px 26px; box-shadow: 0 -10px 30px rgba(0,0,0,0.2);
+  }
+  .confirm-sheet h3{font-size:17px; margin-bottom:8px;}
+  .confirm-sheet p{font-size:13.5px; color:var(--ink-soft); line-height:1.8; margin:0 0 16px;}
+  .confirm-actions{display:flex; gap:10px;}
+  .confirm-actions button{
+    flex:1; padding:12px; border-radius:12px; font-family:'Tajawal'; font-size:14px; border:none; cursor:pointer;
+  }
+  .confirm-cancel{background:var(--bg-alt); color:var(--teal-deep);}
+  .confirm-ok{background:var(--rose); color:#fff;}
+
+  /* ONBOARDING */
+  .onboard-overlay{
+    position:fixed; inset:0; background:var(--bg); z-index:2000;
+    overflow-y:auto; display:flex; justify-content:center; padding:32px 16px 60px;
+  }
+  .onboard-card{max-width:480px; width:100%;}
+  .onboard-card .eyebrow{font-size:13px; color:var(--teal); font-weight:700; letter-spacing:0.5px;}
+  .onboard-card h1{font-size:26px; margin-top:6px; line-height:1.4;}
+  .onboard-card p.lead{color:var(--ink-soft); font-size:13.5px; line-height:1.9; margin-top:8px;}
+  .field{margin-top:14px;}
+  .field label{display:block; font-size:12.5px; color:var(--ink-soft); margin-bottom:6px; font-weight:700;}
+  .field input{
+    width:100%; padding:12px 13px; border-radius:12px; border:1.5px solid var(--line);
+    font-family:'Tajawal'; font-size:14.5px; background:#fff; color:var(--ink);
+  }
+  .field input:focus{outline:none; border-color:var(--teal);}
+  .field-row{display:flex; gap:10px;}
+  .field-row .field{flex:1;}
+  .onboard-submit{
+    margin-top:24px; width:100%; background:var(--teal); color:#fff; border:none;
+    border-radius:14px; padding:15px; font-family:'Tajawal'; font-size:15px; font-weight:700; cursor:pointer;
+  }
+  .onboard-submit:active{ background:var(--teal-deep); }
+  .onboard-note{font-size:12px; color:var(--ink-soft); margin-top:12px; line-height:1.8; text-align:center;}
+  .section-divider{margin-top:22px; padding-top:16px; border-top:1px dashed var(--line);}
+  .section-divider .label{font-size:13px; font-weight:700; color:var(--teal-deep); margin-bottom:4px;}
+
+  /* PROFILE STRIP on dashboard */
+  .profile-strip{
+    display:flex; justify-content:space-between; align-items:flex-start;
+    margin-top:14px; padding-top:14px; border-top:1px solid rgba(255,255,255,0.18);
+    font-size:12px; opacity:0.9; flex-wrap:wrap; gap:8px;
+  }
+  .profile-strip div{line-height:1.7;}
+
+  /* WEIGHT CARD */
+  .weight-row{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:11px 0; border-bottom:1px dashed var(--line); gap:10px;
+  }
+  .weight-row:last-child{border-bottom:none;}
+  .weight-row .wmeta{flex:1;}
+  .weight-row .wlabel{font-size:13.5px; font-weight:700; color:var(--teal-deep);}
+  .weight-row .wsub{font-size:12px; color:var(--ink-soft); margin-top:2px;}
+  .weight-inputwrap{display:flex; align-items:center; gap:6px;}
+  .weight-input{
+    width:64px; padding:8px; border-radius:10px; border:1.5px solid var(--line);
+    text-align:center; font-family:'Tajawal'; font-size:14px;
+  }
+  .weight-saved{font-weight:900; font-size:17px; color:var(--teal); min-width:52px; text-align:center;}
+
+  /* TOGGLE SWITCH (reminders) */
+  .toggle-row{display:flex; align-items:center; justify-content:space-between; padding:11px 0; border-bottom:1px dashed var(--line); gap:10px;}
+  .toggle-row:last-child{border-bottom:none;}
+  .toggle-row .tmeta{flex:1;}
+  .toggle-row .tlabel{font-size:13.5px; font-weight:700; color:var(--teal-deep);}
+  .toggle-row .tsub{font-size:12px; color:var(--ink-soft); margin-top:2px;}
+  .switch{position:relative; width:46px; height:26px; flex:0 0 auto;}
+  .switch input{opacity:0; width:0; height:0;}
+  .slider{position:absolute; cursor:pointer; inset:0; background:var(--line); border-radius:999px; transition:.2s;}
+  .slider::before{content:""; position:absolute; width:20px; height:20px; left:3px; top:3px; background:#fff; border-radius:50%; transition:.2s; box-shadow:0 1px 3px rgba(0,0,0,0.25);}
+  .switch input:checked + .slider{background:var(--teal);}
+  .switch input:checked + .slider::before{transform:translateX(-20px);}
+
+  /* ACTION BUTTONS ROW (reports/backup) */
+  .action-btn{
+    width:100%; background:var(--bg-alt); color:var(--teal-deep); border:1px solid var(--line);
+    border-radius:12px; padding:13px 14px; font-family:'Tajawal'; font-size:14px; font-weight:700; cursor:pointer;
+    display:flex; align-items:center; justify-content:center; gap:8px; margin-top:10px;
+  }
+  .action-btn:first-child{margin-top:0;}
+  .action-btn:active{background:var(--line);}
+  .action-btn.primary{background:var(--teal); color:#fff; border-color:var(--teal);}
+  .action-btn.primary:active{background:var(--teal-deep);}
+
+  /* AUDIT LOG */
+  .audit-list{max-height:260px; overflow-y:auto;}
+  .audit-row{padding:9px 0; border-bottom:1px dashed var(--line); font-size:12.5px; color:var(--ink-soft); display:flex; justify-content:space-between; gap:10px;}
+  .audit-row:last-child{border-bottom:none;}
+  .audit-row .a-action{color:var(--teal-deep); font-weight:700;}
+  .audit-row .a-time{white-space:nowrap; opacity:0.75; font-size:11.5px;}
+  .audit-empty{font-size:13px; color:var(--ink-soft); text-align:center; padding:10px 0;}
+
+  /* OFFSCREEN PRINTABLE REPORT (captured by html2canvas) */
+  #reportTemplate{
+    position:fixed; top:0; left:-99999px; width:720px; background:#fff; color:#1E2C24;
+    font-family:'Tajawal',sans-serif; direction:rtl; padding:32px;
+  }
+  #reportTemplate h1{font-family:'Aref Ruqaa',serif; font-size:26px; color:var(--teal-deep); margin:0 0 4px;}
+  #reportTemplate .r-sub{font-size:13px; color:#52655A; margin-bottom:18px;}
+  #reportTemplate .r-section{margin-top:18px; padding-top:14px; border-top:2px solid #DCE8DF;}
+  #reportTemplate .r-section h2{font-size:17px; color:var(--teal-deep); margin:0 0 8px;}
+  #reportTemplate table{width:100%; border-collapse:collapse; font-size:13px;}
+  #reportTemplate td, #reportTemplate th{padding:6px 8px; border-bottom:1px solid #E9F1EC; text-align:right;}
+</style>
+</head>
+<body>
+
+<div class="onboard-overlay" id="onboardOverlay" style="display:none;">
+  <div class="onboard-card">
+    <div class="eyebrow">قبل ما نبدأ</div>
+    <h1>بيانات رحلتك</h1>
+    <p class="lead">عبّي البيانات دي مرة واحدة، وهتفضل محفوظة عندك على الجهاز. البرنامج هيحسب يومك ومرحلتك تلقائيًا حسب تاريخ الخروج من المستشفى.</p>
+
+    <div class="field-row">
+      <div class="field">
+        <label>الاسم الأول</label>
+        <input type="text" id="obFirstName" placeholder="مثال: سارة">
+      </div>
+      <div class="field">
+        <label>اسم العائلة</label>
+        <input type="text" id="obLastName" placeholder="مثال: أحمد">
+      </div>
+    </div>
+
+    <div class="section-divider">
+      <div class="label">👨‍⚕️ بيانات الطبيب</div>
+    </div>
+    <div class="field">
+      <label>اسم الطبيب</label>
+      <input type="text" id="obDoctorName" value="د. إياد عيد">
+    </div>
+    <div class="field">
+      <label>رقم هاتف العيادة</label>
+      <input type="tel" id="obDoctorPhone" value="00962797002296">
+    </div>
+
+    <div class="section-divider">
+      <div class="label">📅 تواريخ العملية</div>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label>تاريخ العملية</label>
+        <input type="date" id="obSurgeryDate">
+      </div>
+      <div class="field">
+        <label>تاريخ الخروج من المستشفى (بداية البرنامج)</label>
+        <input type="date" id="obDischargeDate">
+      </div>
+    </div>
+
+    <div class="section-divider">
+      <div class="label">⚖️ الوزن</div>
+    </div>
+    <div class="field">
+      <label>الوزن قبل العملية (كغ)</label>
+      <input type="number" step="0.1" id="obWeightBefore" placeholder="مثال: 110">
+    </div>
+
+    <button class="onboard-submit" id="onboardSubmit">ابدئي رحلتي 🌱</button>
+    <div class="onboard-note">البيانات دي بتتخزن على جهازك فقط ومش بتترسل لأي مكان. هتقدري تعدليها لاحقًا فقط عن طريق "إعادة تعيين كل البيانات".</div>
+  </div>
+</div>
+
+<div class="wrap" id="app">
+
+  <div class="hero">
+    <div class="hero-top">
+      <div>
+        <div class="hero-eyebrow">رحلتي بعد عملية التكميم</div>
+        <div class="day-count" id="dayCount">—</div>
+        <div class="day-label" id="dayLabel">جارِ التحميل...</div>
+      </div>
+    </div>
+    <div class="phase-pill"><span class="dot"></span><span id="phaseName">—</span></div>
+
+    <div class="path" id="pathBar"></div>
+
+    <div class="day-nav">
+      <button id="prevDay">اليوم السابق ‹</button>
+      <button id="today">اليوم</button>
+      <button id="nextDay">› اليوم التالي</button>
+    </div>
+    <div id="storageStatus" style="margin-top:12px; font-size:12px; text-align:center; opacity:0.85;"></div>
+    <div class="profile-strip" id="profileStrip"></div>
+  </div>
+
+  <div id="vitaminBanner"></div>
+
+  <div class="card" id="mealsCard">
+    <h2><span class="ic">🍽️</span> وجبات اليوم</h2>
+    <div id="mealsList"></div>
+    <div class="reset-row">
+      <button class="save-btn" id="saveDayBtn">💾 حفظ</button>
+      <button class="reset-btn" id="resetDayBtn">↺ إعادة تعيين كل البيانات</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span class="ic">💧</span> المياه والسوائل</h2>
+    <div class="water-row">
+      <div><span class="stat-big" id="waterCount">0</span><span class="subtle"> / <span id="waterGoal">8</span> أكواب</span></div>
+    </div>
+    <div class="cups" id="cupsRow"></div>
+    <div class="water-goal" id="waterNote"></div>
+  </div>
+
+  <div class="card" id="proteinCard" style="display:none;">
+    <h2><span class="ic">🥩</span> البروتين اليومي</h2>
+    <div class="subtle">الهدف: <b id="proteinTarget">60-80</b> غ يوميا (حسب وزنك المثالي)</div>
+    <div class="protein-bar-bg"><div class="protein-bar-fill" id="proteinFill" style="width:0%;"></div></div>
+    <div class="protein-controls">
+      <button id="proteinMinus">−</button>
+      <span class="stat-big" id="proteinNow">0</span><span class="subtle">غ</span>
+      <button id="proteinPlus">+</button>
+      <span class="subtle" style="margin-right:10px;">(كل ضغطة = 5غ تقريبا)</span>
+    </div>
+  </div>
+
+  <div class="card" id="weightCard">
+    <h2><span class="ic">⚖️</span> متابعة الوزن</h2>
+    <div id="weightList"></div>
+  </div>
+
+  <div class="card" id="remindersCard">
+    <h2><span class="ic">🔔</span> التذكيرات</h2>
+    <div class="subtle" style="margin-bottom:6px;">فعّلي أي تذكير وراح يوصلك إشعار على جهازك حتى لو التطبيق مقفول.</div>
+    <div class="toggle-row">
+      <div class="tmeta">
+        <div class="tlabel">تذكير شرب الماء</div>
+        <div class="tsub">كل ساعتين تقريبا من 9ص حتى 9م</div>
+      </div>
+      <label class="switch"><input type="checkbox" id="remWater"><span class="slider"></span></label>
+    </div>
+    <div class="toggle-row">
+      <div class="tmeta">
+        <div class="tlabel">تذكير الفيتامين</div>
+        <div class="tsub">يوميا الساعة 9:00 صباحا</div>
+      </div>
+      <label class="switch"><input type="checkbox" id="remVitamin"><span class="slider"></span></label>
+    </div>
+    <div class="toggle-row">
+      <div class="tmeta">
+        <div class="tlabel">تذكير مواعيد الوجبات</div>
+        <div class="tsub">فطور، وجبات خفيفة، غداء وعشاء</div>
+      </div>
+      <label class="switch"><input type="checkbox" id="remMeals"><span class="slider"></span></label>
+    </div>
+  </div>
+
+  <div class="card" id="reportsCard">
+    <h2><span class="ic">📄</span> التقارير والنسخ الاحتياطي</h2>
+    <div class="subtle" style="margin-bottom:2px;">صدّري تقريرا بصيغة PDF وشاركيه عبر واتساب، أو خذي نسخة احتياطية من كل بياناتك.</div>
+    <button class="action-btn primary" id="exportPdfBtn">📄 تصدير ومشاركة تقرير PDF</button>
+    <button class="action-btn" id="exportBackupBtn">⬆️ تصدير نسخة احتياطية (JSON)</button>
+    <button class="action-btn" id="restoreBackupBtn">⬇️ استعادة من نسخة احتياطية</button>
+    <input type="file" id="restoreFileInput" accept="application/json,.json" style="display:none;">
+  </div>
+
+  <div class="card" id="auditCard">
+    <h2><span class="ic">📝</span> سجل التغييرات</h2>
+    <div class="audit-list" id="auditList"></div>
+  </div>
+
+  <div class="card" id="rulesCard">
+    <h2><span class="ic">📋</span> قواعد هذه المرحلة</h2>
+    <ul class="tips" id="rulesList"></ul>
+  </div>
+
+  <div class="card" id="foodCard" style="display:none;">
+    <h2><span class="ic">🥗</span> ماذا يمكن أن آكل؟</h2>
+    <div class="tabs" id="foodTabs"></div>
+    <div id="foodTabContents"></div>
+  </div>
+
+  <div class="card">
+    <h2><span class="ic">🏃</span> النشاط البدني</h2>
+    <div class="subtle" id="activityText"></div>
+  </div>
+
+  <div class="disclaimer">
+    ⚠️ هذا التطبيق مبني على خطة عيادة د. إياد عيد كما هي مكتوبة على الورق. راجعي الورقة الأصلية أو تواصلي مع أخصائية التغذية عند أي شك، ولا تستخدمي التطبيق كبديل عن تعليمات طبيبك المباشرة.
+  </div>
+
+  <div class="foot">
+    عيادة د. إياد عيد لجراحة السمنة والمنظار<br>
+    📞 00962797002296 &nbsp;|&nbsp; أخصائية التغذية سندس: 00962799298134<br>
+    <a href="https://www.instagram.com/driyadeidclinic" target="_blank">@driyadeidclinic</a> &nbsp;·&nbsp;
+    <a href="https://www.instagram.com/dietitian_sundus" target="_blank">@Dietitian_Sundus</a>
+  </div>
+
+</div>
+
+<div id="reportTemplate"></div>
+
+<div id="toast"><span class="tick">✓</span><span id="toastText">تم</span></div>
+
+<div class="confirm-overlay" id="confirmOverlay">
+  <div class="confirm-sheet">
+    <h3>إعادة تعيين كل البيانات؟</h3>
+    <p>هيتم حذف كل حاجة: بياناتك الشخصية (الاسم، تواريخ العملية، الوزن)، وكل التشك على كل الأيام (الوجبات، المياه، البروتين، الفيتامين). هترجعي لصفحة البداية تملي بياناتك من جديد، ومفيش طريقة تراجع بعد التأكيد.</p>
+    <div class="confirm-actions">
+      <button class="confirm-cancel" id="confirmCancel">تراجع</button>
+      <button class="confirm-ok" id="confirmOk">تأكيد الإعادة</button>
+    </div>
+  </div>
+</div>
+
+<script src="vendor/capacitor.js"></script>
+<script src="vendor/capacitor-synapse.js"></script>
+<script>window.synapse = window.outsystemsSynapse;</script>
+<script src="vendor/capacitor-share.js"></script>
+<script src="vendor/capacitor-filesystem.js"></script>
+<script src="vendor/capacitor-local-notifications.js"></script>
+<script src="vendor/jspdf.umd.min.js"></script>
+<script src="vendor/html2canvas.min.js"></script>
+<script>
+let DISCHARGE_DATE = null; // set from saved profile once loaded
+let viewDate = new Date();
+viewDate.setHours(0,0,0,0);
+
+function isoOf(d){ return d.toISOString().slice(0,10); }
+function dayNumberFor(d){
+  if(!DISCHARGE_DATE) return 0;
+  const diff = Math.round((d - DISCHARGE_DATE) / 86400000) + 1;
+  return diff;
+}
+
+// ---------------- DATA ----------------
+
+const PHASE1_DAYS = {
+  1:{breakfast:"كوب حليب قليل الدسم", snack1:"كوب مهلبية", lunch:"كوب مرقة دجاج صافية", snack2:"كوب عصير صافي خالي من السكر", dinner:"كوب لبن خالي أو قليل الدسم"},
+  2:{breakfast:"كوب شاي بحليب قليل الدسم", snack1:"كوب كسترد", lunch:"كوب مرقة لحم صافية", snack2:"كوب شاي بالحليب قليل الدسم", dinner:"كوب لبن خالي أو قليل الدسم"},
+  3:{breakfast:"كوب لبن منكّه قليل الدسم", snack1:"كوب عصير صافي خالي من السكر", lunch:"كوب شوربة خضار صافية", snack2:"كوب جلي", dinner:"كوب حليب خالي أو قليل الدسم"},
+  4:{breakfast:"كوب حليب قليل الدسم", snack1:"كوب كسترد", lunch:"كوب مرقة دجاج صافية", snack2:"كوب جلي", dinner:"كوب لبن خالي أو قليل الدسم"},
+  5:{breakfast:"كوب شاي", snack1:"كوب مهلبية", lunch:"كوب مرقة لحم صافية", snack2:"كوب عصير صافي خالي من السكر", dinner:"كوب لبن خالي قليل الدسم"},
+  6:{breakfast:"كوب لبن قليل الدسم", snack1:"كوب عصير بدون سكر", lunch:"كوب شوربة خضار صافية", snack2:"كوب جلي", dinner:"كوب لبن خالي أو قليل الدسم"},
+  7:{breakfast:"كوب زبادي قليل الدسم", snack1:"كوب مهلبية", lunch:"كوب مرقة دجاج صافية", snack2:"كوب عصير صافي خالي من السكر", dinner:"كوب لبن خالي أو قليل الدسم"},
+};
+// من اليوم 8 يمكن إضافة: كوكتيل فواكه مهروس مصفى، ميلك شيك، شوربات مهروسة، آيس كريم/لبن مجمد قليل الدسم، عصير جزر/أناناس/بطيخ
+const PHASE1_WEEK2_ADD = "من اليوم 8: يمكنك إضافة كوكتيل فواكه مهروس ومصفى (تفاح، إجاص، موز، دراق، عنب)، ميلك شيك بالحليب قليل الدسم، شوربات خضار/عدس/فطر مهروسة على الخلاط، أيس كريم أو لبن مجمد قليل الدسم، وعصير جزر أو أناناس أو بطيخ بدون سكر مضاف (مرتين هذا الأسبوع).";
+
+const PHASE1_RULES = [
+"الشرب على شكل رشفات صغيرة فقط، ويُمنع استخدام الماصة (القشة).",
+"تناولي كوب (220 مل تقريبا) من السوائل كل 2-3 ساعات، موزّعة على 45-60 دقيقة على الأقل.",
+"اشربي رشفات ماء بين وجبات السوائل، مع الانتظار 20-30 دقيقة بعد وجبة السوائل.",
+"زيدي كمية الماء لتصل ليتر على الأقل، ومجموع السوائل اليومي ليكون 2 ليتر.",
+"إن شعرتِ بالشبع أو الامتلاء، خذي راحة 10-15 دقيقة قبل إكمال الشرب.",
+"تجنبي القهوة التركية والعربية في أول أسبوعين؛ يمكن شرب قهوة أمريكية أو نسكافيه أو إسبريسو مع الحليب باعتدال بعد يومين من الخروج (من 1/2 إلى كوب باليوم، ويفضل منزوعة الكافيين).",
+"هذه المرحلة تستمر 14 يوما كحد أدنى — الأسبوع الأول سوائل أبسط، والثاني سوائل أكثف وأغنى.",
+];
+
+const PHASE2_DAYS_TEMPLATE = { // applied for days 15-21 and repeats for 22-28
+  breakfast:"بيضة مسلوقة أو مخفوقة / كوب حليب أو لبن قليل الدسم / كوب كورن فليكس أو شوفان بحليب دافئ (بدّلي بينها)",
+  snack1:"كوب حليب قليل الدسم أو حبة من الفواكه اللينة المسموحة",
+  lunch:"30-60 غ بروتين طري جدا (سمك فيليه / فخد دجاج مسلوق / لحمة مفرومة مطبوخة جيدا) + نصف إلى كوب خضار أو بطاطا مسلوقة",
+  snack2:"حبة من الفواكه المسموحة (مقطعة ومقشرة)",
+  dinner:"كوب شوربة خضار / كوب لبن خالي أو قليل الدسم / بيضة مسلوقة",
+};
+
+const PHASE2_RULES = [
+"الطعام يكون لينا وسهل المضغ، ليس بالضرورة مهروسا، لكن مسلوق ومطبوخ جيدا جدا.",
+"تجنبي البهارات القوية والحارة، استخدمي الملح باعتدال والأعشاب الخفيفة.",
+"قطعي طعامك قطعا صغيرة قبل تناوله، وامضغي جيدا (15-20 مرة) حتى تصبح اللقمة مهروسة تقريبا قبل بلعها.",
+"تناولي وجبة كل 3 ساعات تقريبا، واشربي السوائل بينها مع ترك 30 دقيقة بين الأكل الصلب والسوائل.",
+"انتظري 3-4 دقائق بين كل لقمة والأخرى، وخصصي حوالي 30 دقيقة لكل وجبة.",
+"يمكن استخدام كمية قليلة من المرق أو اللبن أثناء الوجبة إذا كان الطعام جافا.",
+"لا يجب أن تقل كمية الماء عن 2 ليتر باليوم.",
+];
+
+const PHASE2_FOODS = {
+  "الفواكه": "الفواكه اللينة مثل الموز، الدراق اللين، البطيخ، الشمام المقطع، التين، التوتيات، العنب، التفاح المسلوق، الإجاص المسلوق أو المبشور، تمر طري جدا، الفواكه المعلبة غير المحلاة.",
+  "الخضار": "الخضار المسلوقة بدون قشورها (كوسا، جزر، فليفلة حلوة، بازيلا، فاصوليا خضراء، الشمندر، باذنجان مشوي، فطر مطبوخ)، سبانخ أو ملوخية ناعمة مطبوخة بالمرق بدون ثوم. تجنبي الخضار ذات الألياف الصلبة (بروكلي، زهرة، ملفوف، ذرة، كرفس، ورق العنب)، وتجنبي الخضار غير المطبوخ مثل الخس والخيار والسلطات.",
+  "النشويات": "بطاطا مسلوقة، بطاطا حلوة مشوية أو مسلوقة، قرع مسلوق، كورن فليكس سادة مع حليب دافئ أو شوفان مطبوخ بالحليب، حمص أو فول مطحون.",
+  "البروتين": "لحم مفروم أو كفتة طرية جدا، فخد الدجاج الطري جدا المقطع، سمك مقطع، مرتديلا، بيض مسلوق أو مخفوق بقليل زيت، لبنة، أجبان طرية، حليب ولبن وزبادي قليل الدسم، تونة معلبة بالماء.",
+};
+
+const PHASE3_RULES = [
+"ابدئي تدريجيا بتجربة الطعام العادي، مع مراعاة البدء بالأطعمة اللينة ثم الأكثر قساوة تدريجيا.",
+"جرّبي نوعا جديدا في كل مرة: لقمة واحدة، ثم انتظري 10 دقائق. إن سبّب لك ضيقا لا يعني أنك لن تستطيعي تناوله لاحقا؛ أعيدي التجربة بعد 3-4 أسابيع.",
+"تجنبي الأطعمة ذات النكهات القوية والبهارات الحارة والمقرمشة والصلصات الحارة.",
+"انتظري أسبوعا إلى أسبوعين بعد الشهر الأول قبل تجربة الحمضيات وصلصات البندورة والخل، وذلك حسب وضع معدتك من الحموضة.",
+"ابدئي بالسلطات الناعمة والخضار الطازجة مع التقطيع، وقشّري الخضار ذات القشرة الصلبة.",
+"ابدئي بالفاكهة بالتدريج، نوع واحد كل مرة مع التقطيع والتقشير، وتجنبي الأفوكادو حتى الأسبوع الثامن بعد العملية.",
+"ابدئي بتجربة طعام المنزل بعد أن يصبح طريا قبل تناوله، واستخدمي كمية قليلة من الزيت في الطبخ.",
+"تجنبي المقالي والمأكولات الدسمة، يمكن البدء بتجربة اللبن المطبوخ.",
+"يمكن تجربة الأرز والخبز والنشويات المختلفة بكميات صغيرة.",
+"تجنبي حتى نهاية الشهر الثالث: البوشار، المكسرات، الفواكه المجففة، الأطعمة صعبة المضغ، والخضراوات عالية الألياف (بروكلي، الذرة، الملفوف، الكرفس، الزهرة، ورق العنب).",
+"تجنبي المشروبات الغازية (حتى المياه الغازية) والعلكة والمشروبات الكحولية.",
+"ابدئي بتناول المكمل البروتيني بهذه المرحلة (Hydrowhey أو ISO whey جيد وسريع الامتصاص).",
+"رتّبي طعامك بحيث تبدئين بمصادر البروتين، ثم الخضار، ثم النشويات.",
+"وجبات صغيرة (حجم الوجبة كوب واحد تقريبا) كل 2-3 ساعات، امضغي جيدا 15-20 مرة، ولا تجمعي الأكل الصلب مع السوائل في نفس الوجبة.",
+];
+
+const PHASE3_MODELS = [
+  {name:"نموذج 1", breakfast:"قطعة توست منزوعة الحواف + 60غ جبنة بيضاء أو 2 ملعقة طعام لبنة أو شريحتين مرتديلا/تركي + شرحات خضار مقطعة", snack1:"كوب بروتين شيك (بعد الرياضة، اخلطي البروتين مع حليب إن كنتِ تتحملينه)", snack2:"حبة فواكه مقطعة", lunch:"60غ دجاج أو لحم طري جدا + 2 ملعقة طعام أرز مسلوق جيدا أو كوب بطاطا + 1/2 كوب لبن أو يخنة خضار", snack3:"حبة فواكه مقطعة", dinner:"كوب سلطة ناعمة جدا + كوب لبن (يفضل قليل الدسم) أو بيضة مسلوقة"},
+  {name:"نموذج 2", breakfast:"كوب حليب خالي الدسم + كوب كورن فليكس", snack1:"كوب بروتين شيك (بعد الرياضة)", snack2:"حبة فواكه مقطعة", lunch:"60غ سمك مشوي بدون جلد + 1/2 كوب سلطة ناعمة + 1/2 كوب بطاطا مشوية", snack3:"حبة فواكه مقطعة", dinner:"60غ جبنة بيضاء أو 4 ملاعق طعام لبنة + 1/2 كوب خضار طازجة مقطعة"},
+  {name:"نموذج 3", breakfast:"بيضة مسلوقة أو مقلية بقليل من الزيت + قطعة توست + شرحات خضار مقطعة", snack1:"كوب بروتين شيك (بعد الرياضة)", snack2:"حبة فواكه مقطعة", lunch:"60غ لحم أو دجاج + 1/2 كوب معكرونة + 1/2 كوب لبن", snack3:"حبة فواكه مقطعة", dinner:"كوب سلطة تونة أو سلطة يونانية مع جبنة"},
+];
+
+const PHASE3_SUBS = {
+  "النشويات": "قطعة توست، أو 1/2 رغيف خبز صغير طري جدا، أو 1/2 خبز حمام أو صمون، أو 1/3 كوب أرز أو معكرونة أو برغل مسلوق جيدا، أو 1/2 كوب بطاطا مسلوقة أو مشوية، أو 1/2 كوب كورن فليكس أو شوفان، أو 1/2 كوب قرع.",
+  "الفواكه": "تفاحة أو إجاصة مقشرة ومقطعة، 3 حبات تمر طري جدا، دراقة مقطعة، مشمشة (4 حبات)، قطعة بطيخ أو شمام، موزة متوسطة، 17 حبة عنب، 1/2 مانجا، 4 فراولة، 1/2 كوب أناناس، أو 1/2 كوب عصير طازج.",
+  "الخضار": "أي نوع من الخضار المطبوخة أو الطازجة، مع مراعاة التقطيع والتقشير، وتجنب الألياف الصلبة (بروكلي، ملفوف، أرضي شوكي) إلا إذا كانت مطبوخة جيدا وطرية جدا. يمكن إدخال البصل والثوم بكميات قليلة.",
+  "البروتين واللحوم": "30غ دجاج أو لحم أو سمك، أو 30غ تونا، أو شريحة مرتديلا أو تركي، أو 30غ جبنة بيضاء أو صفراء، أو 1/4 كوب لبنة، أو بيضة مسلوقة. يفضل اختيار اللحوم الطرية قليلة الدهون، إزالة الجلد والدهون الظاهرة، وطهيها جيدا حتى تصبح طرية جدا.",
+  "الحليب": "حليب أو لبن قليل الدسم (بما في ذلك حليب الصويا)، شنينة أو لبن مخيض غير حامض، لبن زبادي قليل الدسم.",
+  "البقوليات": "1/2 كوب حمص أو فول أو عدس مسلوق (تعادل حصة من مجموعتي اللحوم والنشويات).",
+  "الدهون": "استهلكي أقل كمية ممكنة من الدهون؛ قللي الزيوت وتجنبي السمن والزبدة والقشطة والكريمة والطحينية، وتجنبي المقالي.",
+};
+
+const PHASE3_TARGET_CAL = "600-800 سعرة حرارية باليوم خلال أول 3 شهور، وحتى 1000 سعرة خلال السنة الأولى.";
+
+const PHASE4_RULES = [
+"حافظي على وجباتك منتظمة يوميا: 3 وجبات رئيسية تحتوي بروتين وخضار وقليل من النشويات، ووجبتين خفيفتين من الفواكه بينها.",
+"تناولي حصتين من الحليب واللبن القليلة الدسم يوميا.",
+"ركزي على الأغذية الغنية بالبروتين: دجاج، سمك، لحوم، بيض، ألبان، أجبان.",
+"حافظي على وجود كمية جيدة من الخضار في الوجبات الرئيسية.",
+"تناولي النشويات باعتدال، واختاري منتجات الحبوب الكاملة.",
+"تناولي الحد الأدنى من الدهون، وتجنبي الدهون الحيوانية.",
+"اشربي كمية كافية من السوائل بين الوجبات (لا يقل عن 1.5 ليتر يوميا)؛ اختاري السوائل الخالية من السعرات الحرارية (ماء وأعشاب)، وتجنبي المشروبات المحلاة والغازية ومشروبات الطاقة والكحول.",
+"تجنبي الحلويات والمأكولات العالية بالسعرات كالشوكولاتة (حددي لنفسك كمية أسبوعية صغيرة ولا تتعدّيها).",
+"يمكنك تناول حفنة (6-8 حبات) من المكسرات مرتين أسبوعيا للفائدة، دون أن تزيد عن ذلك.",
+"تذكّري: مضغ جيد للطعام، التمهل، تناول لقم صغيرة، والتوقف حال الشعور بالشبع.",
+];
+
+const COOKING_TIPS = [
+"تجنبي استخدام السمن والزبدة بالطبخ.",
+"اختاري بدائل الحليب ومنتجاته الخالية من الدسم.",
+"استخدمي المرق بدلا من الزيوت بالطبخ.",
+"انزعي الجلد عن الدجاج والدهن الظاهر عن اللحوم.",
+"الجئي دائما للشي والسلق والخبز عوضا عن القلي في طهي الطعام.",
+];
+
+const ACTIVITY_TEXT = {
+  early: "الأسابيع الثلاثة الأولى: حركة خفيفة بالمنزل ومشاوير خفيفة بدون إجهاد فقط.",
+  mid: "بعد 3 أسابيع من العملية: يُسمح بالرياضة الخفيفة مثل المشي السريع، الركض، والسباحة.",
+  late: "بعد شهرين من العملية: يمكن ممارسة رياضات أخرى مثل رفع الأثقال ودفع الحديد.",
+  goal: "الهدف: 30 دقيقة رياضة على الأقل يوميا، والمشي 45-60 دقيقة/يوم لمدة 5 أيام بالأسبوع هدف مناسب للمراحل الأولى.",
+};
+
+// ---------------- PHASE LOGIC ----------------
+function getPhase(dayNum){
+  if(dayNum < 1) return {key:'pre', name:"قبل بداية الخطة"};
+  if(dayNum <= 14) return {key:'p1', name:"المرحلة 1 · سوائل كاملة"};
+  if(dayNum <= 28) return {key:'p2', name:"المرحلة 2 · طعام طري ولين"};
+  if(dayNum <= 180) return {key:'p3', name:"المرحلة 3 · انتقال تدريجي للأكل العادي"};
+  return {key:'p4', name:"المرحلة 4 · نظام صحي متوازن لمدى الحياة"};
+}
+
+function waterGoalFor(phaseKey){
+  if(phaseKey==='p1' || phaseKey==='p2') return 8; // 2L in ~250ml cups
+  return 6; // ~1.5L
+}
+
+// ---------------- TOAST ----------------
+let toastTimer = null;
+function showToast(text){
+  const t = document.getElementById('toast');
+  document.getElementById('toastText').textContent = text;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=> t.classList.remove('show'), 1600);
+}
+
+// ---------------- AUDIT LOG ----------------
+const AUDIT_KEY = 'auditLog';
+async function logAudit(action, detail){
+  try{
+    const arr = (await getVal(AUDIT_KEY)) || [];
+    arr.unshift({ ts: Date.now(), action, detail: detail || '' });
+    if(arr.length > 300) arr.length = 300;
+    await setVal(AUDIT_KEY, arr);
+  }catch(e){ console.error('audit log error', e); }
+}
+async function renderAuditLog(){
+  const el = document.getElementById('auditList');
+  if(!el) return;
+  const arr = (await getVal(AUDIT_KEY)) || [];
+  if(!arr.length){ el.innerHTML = '<div class="audit-empty">لسه ما فيه أي تغييرات مسجّلة.</div>'; return; }
+  el.innerHTML = arr.slice(0, 50).map(entry=>{
+    const d = new Date(entry.ts);
+    const timeStr = d.toLocaleString('ar-EG', {dateStyle:'medium', timeStyle:'short'});
+    return `<div class="audit-row">
+      <div><span class="a-action">${entry.action}</span>${entry.detail ? ' — ' + entry.detail : ''}</div>
+      <div class="a-time">${timeStr}</div>
+    </div>`;
+  }).join('');
+}
+
+// ---------------- REMINDERS (local notifications) ----------------
+const REMINDER_KEY = 'reminders';
+async function getReminderPrefs(){
+  return (await getVal(REMINDER_KEY)) || { water:false, vitamin:false, meals:false };
+}
+async function saveReminderPrefs(p){ await setVal(REMINDER_KEY, p); }
+
+function getLN(){
+  return (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.LocalNotifications) || null;
+}
+async function ensureNotifPermission(){
+  const LN = getLN();
+  if(!LN) return false;
+  try{
+    const status = await LN.checkPermissions();
+    if(status.display === 'granted') return true;
+    const req = await LN.requestPermissions();
+    return req.display === 'granted';
+  }catch(e){ console.error('notif permission error', e); return false; }
+}
+
+const WATER_REMINDER_IDS = [101,102,103,104,105,106,107];
+const WATER_REMINDER_HOURS = [9,11,13,15,17,19,21];
+const VITAMIN_REMINDER_ID = 110;
+const MEAL_REMINDER_TIMES = [
+  {id:121, hour:8,  minute:0,  label:'الفطور'},
+  {id:122, hour:11, minute:0,  label:'وجبة خفيفة'},
+  {id:123, hour:13, minute:30, label:'الغداء'},
+  {id:124, hour:16, minute:0,  label:'وجبة خفيفة'},
+  {id:125, hour:19, minute:30, label:'العشاء'},
+];
+const MEAL_REMINDER_IDS = MEAL_REMINDER_TIMES.map(m=>m.id);
+
+async function scheduleWaterReminders(){
+  const LN = getLN(); if(!LN) return;
+  await LN.schedule({ notifications: WATER_REMINDER_HOURS.map((h,idx)=>({
+    id: WATER_REMINDER_IDS[idx],
+    title: 'وقت شرب المية 💧',
+    body: 'خدي كوب مية أو سوائل الحين، وسجّليه بالتطبيق.',
+    schedule: { on: { hour:h, minute:0 } },
+  })) });
+}
+async function cancelWaterReminders(){
+  const LN = getLN(); if(!LN) return;
+  await LN.cancel({ notifications: WATER_REMINDER_IDS.map(id=>({id})) });
+}
+async function scheduleVitaminReminder(){
+  const LN = getLN(); if(!LN) return;
+  await LN.schedule({ notifications: [{
+    id: VITAMIN_REMINDER_ID,
+    title: 'فيتامين اليوم 💊',
+    body: 'ما تنسي حبة الفيتامين اليومية.',
+    schedule: { on: { hour:9, minute:0 } },
+  }] });
+}
+async function cancelVitaminReminder(){
+  const LN = getLN(); if(!LN) return;
+  await LN.cancel({ notifications: [{ id: VITAMIN_REMINDER_ID }] });
+}
+async function scheduleMealReminders(){
+  const LN = getLN(); if(!LN) return;
+  await LN.schedule({ notifications: MEAL_REMINDER_TIMES.map(m=>({
+    id: m.id,
+    title: 'موعد ' + m.label + ' 🍽️',
+    body: 'افتحي التطبيق وسجّلي ' + m.label + ' لهذا اليوم.',
+    schedule: { on: { hour:m.hour, minute:m.minute } },
+  })) });
+}
+async function cancelMealReminders(){
+  const LN = getLN(); if(!LN) return;
+  await LN.cancel({ notifications: MEAL_REMINDER_IDS.map(id=>({id})) });
+}
+
+async function renderReminders(){
+  const prefs = await getReminderPrefs();
+  const water = document.getElementById('remWater');
+  const vitamin = document.getElementById('remVitamin');
+  const meals = document.getElementById('remMeals');
+  if(water) water.checked = !!prefs.water;
+  if(vitamin) vitamin.checked = !!prefs.vitamin;
+  if(meals) meals.checked = !!prefs.meals;
+}
+
+function wireReminderToggles(){
+  const water = document.getElementById('remWater');
+  const vitamin = document.getElementById('remVitamin');
+  const meals = document.getElementById('remMeals');
+
+  water.onchange = async ()=>{
+    const prefs = await getReminderPrefs();
+    if(water.checked){
+      const ok = await ensureNotifPermission();
+      if(!ok){ water.checked=false; showToast('⚠️ لازم تسمحي بالإشعارات من إعدادات الجهاز'); return; }
+      await scheduleWaterReminders();
+      prefs.water = true;
+      showToast('تفعّل تذكير الماء ✓');
+      logAudit('تفعيل تذكير', 'شرب الماء');
+    } else {
+      await cancelWaterReminders();
+      prefs.water = false;
+      logAudit('إيقاف تذكير', 'شرب الماء');
+    }
+    await saveReminderPrefs(prefs);
+  };
+
+  vitamin.onchange = async ()=>{
+    const prefs = await getReminderPrefs();
+    if(vitamin.checked){
+      const ok = await ensureNotifPermission();
+      if(!ok){ vitamin.checked=false; showToast('⚠️ لازم تسمحي بالإشعارات من إعدادات الجهاز'); return; }
+      await scheduleVitaminReminder();
+      prefs.vitamin = true;
+      showToast('تفعّل تذكير الفيتامين ✓');
+      logAudit('تفعيل تذكير', 'الفيتامين');
+    } else {
+      await cancelVitaminReminder();
+      prefs.vitamin = false;
+      logAudit('إيقاف تذكير', 'الفيتامين');
+    }
+    await saveReminderPrefs(prefs);
+  };
+
+  meals.onchange = async ()=>{
+    const prefs = await getReminderPrefs();
+    if(meals.checked){
+      const ok = await ensureNotifPermission();
+      if(!ok){ meals.checked=false; showToast('⚠️ لازم تسمحي بالإشعارات من إعدادات الجهاز'); return; }
+      await scheduleMealReminders();
+      prefs.meals = true;
+      showToast('تفعّل تذكير الوجبات ✓');
+      logAudit('تفعيل تذكير', 'مواعيد الوجبات');
+    } else {
+      await cancelMealReminders();
+      prefs.meals = false;
+      logAudit('إيقاف تذكير', 'مواعيد الوجبات');
+    }
+    await saveReminderPrefs(prefs);
+  };
+}
+
+// ---------------- NATIVE HELPERS (Filesystem / Share / platform) ----------------
+function getFS(){ return (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.Filesystem) || null; }
+function getShare(){ return (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.Share) || null; }
+function isNative(){ return !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform()); }
+
+// ---------------- PDF REPORT EXPORT ----------------
+async function buildReportHtml(){
+  const dayNum = dayNumberFor(viewDate);
+  const phase = getPhase(dayNum);
+  const iso = isoOf(viewDate);
+  const profile = await getProfile();
+  const fullName = profile ? [profile.firstName, profile.lastName].filter(Boolean).join(' ') : '';
+  const dateStr = viewDate.toLocaleDateString('ar-EG', {weekday:'long', day:'numeric', month:'long', year:'numeric'});
+
+  const mealsSaved = (await getVal('meals:'+iso)) || {};
+  const labels = {breakfast:'الفطور', snack1:'وجبة خفيفة 1', lunch:'الغداء', snack2:'وجبة خفيفة 2', snack3:'وجبة خفيفة 3', dinner:'العشاء'};
+  let mealsRows = '';
+  Object.keys(labels).forEach(k=>{
+    if(document.querySelector(`#mealsList .check[data-meal="${k}"]`)){
+      mealsRows += `<tr><td>${labels[k]}</td><td>${mealsSaved[k] ? '✔️ تم' : '—'}</td></tr>`;
+    }
+  });
+
+  const waterCount = (await getVal('water:'+iso)) || 0;
+  const proteinGrams = (await getVal('protein:'+iso)) || 0;
+
+  const checkpoints = [
+    {key:'before', label:'قبل العملية'},
+    {key:'p1', label:'نهاية المرحلة 1'},
+    {key:'p2', label:'نهاية المرحلة 2'},
+    {key:'p3', label:'بعد 3 شهور'},
+    {key:'p4', label:'بعد 6 شهور'},
+  ];
+  let weightRows = '';
+  for(const c of checkpoints){
+    const val = c.key==='before' ? (profile && profile.weightBefore) : (await getVal('weight:'+c.key));
+    weightRows += `<tr><td>${c.label}</td><td>${val ? val + ' كغ' : '—'}</td></tr>`;
+  }
+
+  return `
+    <h1>رحلتي بعد التكميم</h1>
+    <div class="r-sub">تقرير ${fullName ? 'لـ ' + fullName + ' — ' : ''}${dateStr} (اليوم ${dayNum > 0 ? dayNum : '—'} — ${phase.name})</div>
+
+    <div class="r-section">
+      <h2>الوجبات لهذا اليوم</h2>
+      <table><tbody>${mealsRows || '<tr><td colspan="2">لا يوجد نموذج وجبات لهذا اليوم.</td></tr>'}</tbody></table>
+    </div>
+
+    <div class="r-section">
+      <h2>المياه والبروتين</h2>
+      <table><tbody>
+        <tr><td>أكواب الماء</td><td>${waterCount}</td></tr>
+        <tr><td>البروتين (غ)</td><td>${proteinGrams}</td></tr>
+      </tbody></table>
+    </div>
+
+    <div class="r-section">
+      <h2>متابعة الوزن</h2>
+      <table><tbody>${weightRows}</tbody></table>
+    </div>
+  `;
+}
+
+async function exportPdfReport(){
+  const btn = document.getElementById('exportPdfBtn');
+  if(btn) btn.disabled = true;
+  try{
+    const container = document.getElementById('reportTemplate');
+    container.innerHTML = await buildReportHtml();
+
+    // give the browser a tick to lay out the (offscreen) content before capture
+    await new Promise(r=>setTimeout(r, 60));
+
+    const canvas = await html2canvas(container, { scale:2, backgroundColor:'#ffffff', useCORS:true });
+    const imgData = canvas.toDataURL('image/png');
+
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF('p', 'pt', 'a4');
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
+    const imgWidth = pageWidth;
+    const imgHeight = canvas.height * imgWidth / canvas.width;
+
+    let heightLeft = imgHeight;
+    let position = 0;
+    pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+    heightLeft -= pageHeight;
+    while(heightLeft > 0){
+      position = heightLeft - imgHeight;
+      pdf.addPage();
+      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+    }
+
+    const dataUri = pdf.output('datauristring');
+    const base64 = dataUri.split(',')[1];
+    const fileName = 'تقرير-رحلتي-' + isoOf(viewDate) + '.pdf';
+
+    if(isNative() && getFS() && getShare()){
+      const FS = getFS();
+      await FS.writeFile({ path: fileName, data: base64, directory: 'CACHE' });
+      const uriRes = await FS.getUri({ path: fileName, directory: 'CACHE' });
+      await getShare().share({
+        title: 'تقرير رحلتي بعد التكميم',
+        text: 'تقرير من تطبيق رحلتي بعد التكميم',
+        files: [uriRes.uri],
+        dialogTitle: 'مشاركة التقرير',
+      });
+      logAudit('تصدير تقرير PDF', fileName);
+      showToast('تم إنشاء التقرير ✅');
+    } else {
+      // fallback for testing in a regular desktop browser (no native share/filesystem there)
+      const a = document.createElement('a');
+      a.href = dataUri;
+      a.download = fileName;
+      a.click();
+      logAudit('تصدير تقرير PDF', fileName + ' (متصفح)');
+      showToast('تم تنزيل التقرير ✅');
+    }
+  }catch(e){
+    console.error('pdf export error', e);
+    showToast('⚠️ صار خطأ أثناء إنشاء التقرير');
+  } finally {
+    if(btn) btn.disabled = false;
+  }
+}
+
+// ---------------- BACKUP / RESTORE ----------------
+async function exportBackupJson(){
+  try{
+    const keys = await listKeys('');
+    const data = {};
+    for(const k of keys){ data[k] = await getVal(k); }
+    const payload = { app:'sleeveTracker', exportedAt: new Date().toISOString(), data };
+    const json = JSON.stringify(payload, null, 2);
+    const fileName = 'نسخة-احتياطية-رحلتي-' + isoOf(new Date()) + '.json';
+
+    if(isNative() && getFS() && getShare()){
+      const FS = getFS();
+      await FS.writeFile({ path: fileName, data: json, directory: 'CACHE', encoding: 'utf8' });
+      const uriRes = await FS.getUri({ path: fileName, directory: 'CACHE' });
+      await getShare().share({
+        title: 'نسخة احتياطية — رحلتي بعد التكميم',
+        text: 'احتفظي بهذا الملف، وارفعيه لاحقًا لاستعادة بياناتك.',
+        files: [uriRes.uri],
+        dialogTitle: 'مشاركة/حفظ النسخة الاحتياطية',
+      });
+      showToast('تم تجهيز النسخة الاحتياطية ✅');
+    } else {
+      const blob = new Blob([json], {type:'application/json'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = fileName; a.click();
+      URL.revokeObjectURL(url);
+      showToast('تم تنزيل النسخة الاحتياطية ✅');
+    }
+    logAudit('تصدير نسخة احتياطية', fileName);
+  }catch(e){
+    console.error('backup export error', e);
+    showToast('⚠️ صار خطأ أثناء إنشاء النسخة الاحتياطية');
+  }
+}
+
+function restoreBackupFromFile(file){
+  const reader = new FileReader();
+  reader.onload = async ()=>{
+    try{
+      const parsed = JSON.parse(reader.result);
+      const data = parsed && parsed.data ? parsed.data : parsed;
+      if(!data || typeof data !== 'object') throw new Error('bad backup file');
+      for(const k of Object.keys(data)){
+        await setVal(k, data[k]);
+      }
+      logAudit('استعادة نسخة احتياطية', file.name);
+      showToast('تم استعادة البيانات ✅');
+      DISCHARGE_DATE = null;
+      await bootApp();
+    }catch(e){
+      console.error('restore error', e);
+      showToast('⚠️ الملف غير صالح لاستعادة البيانات');
+    }
+  };
+  reader.readAsText(file);
+}
+
+// ---------------- STORAGE HELPERS ----------------
+// Uses localStorage so data persists on this device even when the file is
+// opened standalone (added to Home Screen) outside claude.ai.
+const memFallback = {}; // used only if localStorage is totally unavailable
+const STORE_PREFIX = 'sleeveTracker:';
+
+function storageAvailable(){
+  try{
+    const t = '__t__';
+    window.localStorage.setItem(t,'1');
+    window.localStorage.removeItem(t);
+    return true;
+  }catch(e){ return false; }
+}
+const HAS_LS = storageAvailable();
+
+async function getVal(key){
+  const fullKey = STORE_PREFIX + key;
+  try{
+    if(HAS_LS){
+      const raw = window.localStorage.getItem(fullKey);
+      return raw ? JSON.parse(raw) : null;
+    }
+    return Object.prototype.hasOwnProperty.call(memFallback, fullKey) ? memFallback[fullKey] : null;
+  }catch(e){ return null; }
+}
+async function setVal(key,val){
+  const fullKey = STORE_PREFIX + key;
+  try{
+    if(HAS_LS){
+      window.localStorage.setItem(fullKey, JSON.stringify(val));
+    } else {
+      memFallback[fullKey] = val;
+    }
+  }catch(e){ console.error('save failed', e); }
+}
+async function listKeys(prefix){
+  const fullPrefix = STORE_PREFIX + prefix;
+  const keys = [];
+  try{
+    if(HAS_LS){
+      for(let i=0;i<window.localStorage.length;i++){
+        const k = window.localStorage.key(i);
+        if(k && k.indexOf(fullPrefix)===0) keys.push(k.slice(STORE_PREFIX.length));
+      }
+    } else {
+      Object.keys(memFallback).forEach(k=>{
+        if(k.indexOf(fullPrefix)===0) keys.push(k.slice(STORE_PREFIX.length));
+      });
+    }
+  }catch(e){ /* noop */ }
+  return keys;
+}
+async function deleteVal(key){
+  const fullKey = STORE_PREFIX + key;
+  try{
+    if(HAS_LS) window.localStorage.removeItem(fullKey);
+    else delete memFallback[fullKey];
+  }catch(e){ /* noop */ }
+}
+
+// ---------------- PROFILE / ONBOARDING ----------------
+async function getProfile(){
+  return await getVal('profile');
+}
+async function saveProfile(p){
+  await setVal('profile', p);
+}
+
+function fillOnboardDefaults(){
+  const todayIso = isoOf(new Date());
+  const sd = document.getElementById('obSurgeryDate');
+  const dd = document.getElementById('obDischargeDate');
+  if(sd && !sd.value) sd.value = todayIso;
+  if(dd && !dd.value) dd.value = todayIso;
+}
+
+function showOnboarding(){
+  fillOnboardDefaults();
+  document.getElementById('onboardOverlay').style.display = 'flex';
+  document.getElementById('app').style.display = 'none';
+}
+function hideOnboarding(){
+  document.getElementById('onboardOverlay').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+}
+
+document.getElementById('onboardSubmit').onclick = async ()=>{
+  const firstName = document.getElementById('obFirstName').value.trim();
+  const lastName = document.getElementById('obLastName').value.trim();
+  const doctorName = document.getElementById('obDoctorName').value.trim() || 'د. إياد عيد';
+  const doctorPhone = document.getElementById('obDoctorPhone').value.trim() || '00962797002296';
+  const surgeryDate = document.getElementById('obSurgeryDate').value;
+  const dischargeDate = document.getElementById('obDischargeDate').value;
+  const weightBefore = document.getElementById('obWeightBefore').value;
+
+  if(!dischargeDate){
+    showToast('⚠️ لازم تحددي تاريخ الخروج من المستشفى');
+    return;
+  }
+
+  const profile = {firstName, lastName, doctorName, doctorPhone, surgeryDate, dischargeDate, weightBefore};
+  await saveProfile(profile);
+  logAudit('إعداد البيانات الأولية', 'بداية البرنامج: ' + dischargeDate);
+
+  // Set the live discharge date and jump straight to "today" per the device's real date.
+  DISCHARGE_DATE = new Date(dischargeDate + 'T00:00:00');
+  viewDate = new Date();
+  viewDate.setHours(0,0,0,0);
+
+  hideOnboarding();
+  showToast('تم حفظ بياناتك ✅');
+  render();
+};
+
+async function bootApp(){
+  const profile = await getProfile();
+  if(!profile || !profile.dischargeDate){
+    showOnboarding();
+    return;
+  }
+  DISCHARGE_DATE = new Date(profile.dischargeDate + 'T00:00:00');
+  hideOnboarding();
+  render();
+}
+
+function renderProfileStrip(profile){
+  const el = document.getElementById('profileStrip');
+  if(!el) return;
+  if(!profile){ el.innerHTML=''; return; }
+  const fullName = [profile.firstName, profile.lastName].filter(Boolean).join(' ') || 'مستخدمة التطبيق';
+  el.innerHTML = `
+    <div>👤 ${fullName}</div>
+    <div>👨‍⚕️ ${profile.doctorName || ''} · ${profile.doctorPhone || ''}</div>
+  `;
+}
+
+// ---------------- RENDER ----------------
+async function render(){
+  if(!DISCHARGE_DATE) return; // onboarding not completed yet
+  const dayNum = dayNumberFor(viewDate);
+  const phase = getPhase(dayNum);
+  const iso = isoOf(viewDate);
+
+  const profile = await getProfile();
+  renderProfileStrip(profile);
+
+  document.getElementById('dayCount').textContent = dayNum >= 1 ? ('اليوم ' + dayNum) : '—';
+  const dateStr = viewDate.toLocaleDateString('ar-EG', {weekday:'long', day:'numeric', month:'long'});
+  document.getElementById('dayLabel').textContent = dateStr;
+  document.getElementById('phaseName').textContent = phase.name;
+
+  renderPath(dayNum);
+
+  // vitamins banner (sleeve: week 3 -> day 15, for 4 months -> ~day 135)
+  const vBanner = document.getElementById('vitaminBanner');
+  if(dayNum >= 15 && dayNum <= 135){
+    const vKey = 'vitamin:'+iso;
+    const taken = await getVal(vKey);
+    vBanner.innerHTML = `
+      <div class="banner">
+        <div class="ic">💊</div>
+        <div style="flex:1;">
+          <b>فيتامين Bariatric Fusion</b>
+          <p>حبة واحدة مضغ يوميا (حسب تعليمات عملية التكميم) — استمري حتى الشهر الرابع من العملية.</p>
+          <div class="check ${taken?'checked':''}" id="vitCheck" style="margin-top:8px;"></div>
+        </div>
+      </div>`;
+    document.getElementById('vitCheck').onclick = async ()=>{
+      const cur = await getVal(vKey);
+      await setVal(vKey, !cur);
+      logAudit('الفيتامين', !cur ? 'تم تسجيله' : 'أُلغي التسجيل');
+      if(!cur) showToast('الفيتامين — تم ✓');
+      render();
+    };
+  } else {
+    vBanner.innerHTML = '';
+  }
+
+  // meals
+  await renderMeals(dayNum, phase, iso);
+
+  // water
+  await renderWater(phase, iso);
+
+  // protein (phase 3/4 only)
+  const proteinCard = document.getElementById('proteinCard');
+  if(phase.key==='p3' || phase.key==='p4'){
+    proteinCard.style.display='block';
+    await renderProtein(iso);
+  } else {
+    proteinCard.style.display='none';
+  }
+
+  // rules
+  renderRules(phase);
+
+  // weight checkpoints
+  await renderWeight(dayNum, profile);
+
+  // foods (phase2 & phase3)
+  renderFoods(phase);
+
+  // activity
+  renderActivity(dayNum);
+
+  // audit log + reminder toggles
+  await renderAuditLog();
+  await renderReminders();
+}
+
+function renderPath(dayNum){
+  const stages = [
+    {key:'p1', label:'سوائل', from:1, to:14},
+    {key:'p2', label:'طري ولين', from:15, to:28},
+    {key:'p3', label:'انتقالي', from:29, to:180},
+    {key:'p4', label:'مدى الحياة', from:181, to:99999},
+  ];
+  const bar = document.getElementById('pathBar');
+  bar.innerHTML = stages.map(s=>{
+    let cls='';
+    let fillPct = 0;
+    if(dayNum > s.to){ cls='done'; fillPct=100; }
+    else if(dayNum >= s.from){ cls='current'; fillPct = Math.min(100, Math.round(((dayNum-s.from+1)/(s.to-s.from+1))*100)); }
+    return `<div class="path-step ${cls}">
+      <div class="stepbar"><div class="stepbar-fill" style="width:${fillPct}%"></div></div>
+      <span>${s.label}</span>
+    </div>`;
+  }).join('');
+}
+
+async function renderMeals(dayNum, phase, iso){
+  const key = 'meals:'+iso;
+  const saved = (await getVal(key)) || {};
+  let mealsObj = null;
+  let noteHtml = '';
+
+  if(phase.key==='p1'){
+    const d = ((dayNum-1) % 7) + 1; // cycle 1-7 (week1 base, week2 same base + additions)
+    mealsObj = PHASE1_DAYS[d];
+    if(dayNum >= 8) noteHtml = `<div class="subtle" style="margin-bottom:10px;">${PHASE1_WEEK2_ADD}</div>`;
+  } else if(phase.key==='p2'){
+    mealsObj = PHASE2_DAYS_TEMPLATE;
+    noteHtml = `<div class="subtle" style="margin-bottom:10px;">هذا نموذج يومي عام لهذه المرحلة (يتكرر لمدة أسبوعين) — نوّعي بين الخيارات المذكورة يوميا واستخدمي قوائم البدائل بالأسفل.</div>`;
+  } else if(phase.key==='p3'){
+    const modelIdx = (dayNum-29) % 3;
+    const m = PHASE3_MODELS[modelIdx];
+    mealsObj = {breakfast:m.breakfast, snack1:m.snack1, lunch:m.lunch, snack2:m.snack2, snack3:m.snack3, dinner:m.dinner};
+    noteHtml = `<div class="subtle" style="margin-bottom:10px;"><b>${m.name}</b> — يمكنك اعتماد أي نموذج ليوم كامل وتبديله بالنماذج الأخرى أو باستخدام قوائم البدائل بالأسفل.</div>`;
+  } else if(phase.key==='p4'){
+    mealsObj = null;
+    noteHtml = `<div class="subtle">وصلتِ لمرحلة النظام الغذائي مدى الحياة: 3 وجبات رئيسية (بروتين + خضار + قليل نشويات) ووجبتين خفيفتين من الفواكه، بدون قائمة يومية محددة. راجعي بطاقة "قواعد هذه المرحلة" بالأسفل.</div>`;
+  } else {
+    mealsObj = null;
+  }
+
+  const labels = {breakfast:'الفطور', snack1:'وجبة خفيفة 1', lunch:'الغداء', snack2:'وجبة خفيفة 2', snack3:'وجبة خفيفة 3', dinner:'العشاء'};
+  const order = ['breakfast','snack1','lunch','snack2','snack3','dinner'];
+
+  let rows = '';
+  if(mealsObj){
+    order.forEach(k=>{
+      if(!mealsObj[k]) return;
+      const checked = !!saved[k];
+      rows += `<div class="meal-row">
+        <div class="check ${checked?'checked':''}" data-meal="${k}"></div>
+        <div class="meal-text">
+          <div class="meal-name ${checked?'done':''}">${labels[k]}</div>
+          <div class="meal-detail ${checked?'done':''}">${mealsObj[k]}</div>
+        </div>
+      </div>`;
+    });
+  }
+
+  document.getElementById('mealsList').innerHTML = noteHtml + rows;
+
+  document.querySelectorAll('#mealsList .check').forEach(el=>{
+    el.onclick = async ()=>{
+      const mkey = el.getAttribute('data-meal');
+      const cur = (await getVal(key)) || {};
+      cur[mkey] = !cur[mkey];
+      await setVal(key, cur);
+      logAudit(labels[mkey], cur[mkey] ? 'تم تسجيلها' : 'أُلغي التسجيل');
+      if(cur[mkey]) showToast(labels[mkey] + ' — تم ✓');
+      render();
+    };
+  });
+}
+
+async function renderWater(phase, iso){
+  const goal = waterGoalFor(phase.key);
+  const key = 'water:'+iso;
+  const count = (await getVal(key)) || 0;
+
+  document.getElementById('waterGoal').textContent = goal;
+  document.getElementById('waterCount').textContent = count;
+  document.getElementById('waterNote').textContent =
+    (phase.key==='p1' || phase.key==='p2')
+      ? 'الهدف: لا يقل مجموع السوائل عن 2 ليتر يوميا (كل كوب ≈ 250 مل)، اشربي رشفات صغيرة وليس مع الطعام.'
+      : 'الهدف: لا يقل الماء عن 1.5 ليتر يوميا، اشربيه بين الوجبات وليس معها.';
+
+  const cupsRow = document.getElementById('cupsRow');
+  cupsRow.innerHTML = '';
+  for(let i=1;i<=goal;i++){
+    const cup = document.createElement('div');
+    cup.className = 'cup' + (i<=count ? ' filled' : '');
+    cup.onclick = async ()=>{
+      const cur = (await getVal(key)) || 0;
+      const newVal = (i<=cur && i===cur) ? cur-1 : i; // tap same last cup to remove, else set to i
+      const finalVal = Math.max(0, newVal);
+      await setVal(key, finalVal);
+      logAudit('كوب ماء', finalVal + ' من ' + goal);
+      render();
+    };
+    cupsRow.appendChild(cup);
+  }
+}
+
+async function renderProtein(iso){
+  const key = 'protein:'+iso;
+  const grams = (await getVal(key)) || 0;
+  const target = 70;
+  document.getElementById('proteinNow').textContent = grams;
+  document.getElementById('proteinFill').style.width = Math.min(100, Math.round(grams/target*100)) + '%';
+
+  document.getElementById('proteinPlus').onclick = async ()=>{
+    const cur = (await getVal(key)) || 0;
+    await setVal(key, cur+5);
+    logAudit('بروتين', '+5غ');
+    render();
+  };
+  document.getElementById('proteinMinus').onclick = async ()=>{
+    const cur = (await getVal(key)) || 0;
+    await setVal(key, Math.max(0,cur-5));
+    logAudit('بروتين', '-5غ');
+    render();
+  };
+}
+
+async function renderWeight(dayNum, profile){
+  const checkpoints = [
+    {key:'before', label:'قبل العملية', fromProfile:true},
+    {key:'p1', label:'نهاية المرحلة 1 (سوائل)', day:14},
+    {key:'p2', label:'نهاية المرحلة 2 (طري ولين)', day:28},
+    {key:'p3', label:'بعد 3 شهور من العملية', day:90},
+    {key:'p4', label:'بعد 6 شهور من العملية', day:181},
+  ];
+  const list = document.getElementById('weightList');
+  let rows = '';
+  for(const c of checkpoints){
+    let value = '';
+    let reached = true;
+    if(c.fromProfile){
+      value = (profile && profile.weightBefore) ? profile.weightBefore : '';
+    } else {
+      const saved = await getVal('weight:'+c.key);
+      value = saved || '';
+      reached = dayNum >= c.day;
+    }
+    const subText = c.fromProfile ? 'مسجّل من صفحة البداية' : (reached ? ('من اليوم ' + c.day) : ('هيتفعّل في اليوم ' + c.day));
+    rows += `<div class="weight-row">
+      <div class="wmeta">
+        <div class="wlabel">${c.label}</div>
+        <div class="wsub">${subText}</div>
+      </div>
+      ${c.fromProfile
+        ? `<div class="weight-saved">${value ? value+' كغ' : '—'}</div>`
+        : (reached
+            ? `<div class="weight-inputwrap">
+                 <input type="number" step="0.1" class="weight-input" data-wkey="${c.key}" value="${value}" placeholder="كغ">
+               </div>`
+            : `<div class="weight-saved" style="opacity:0.4;">—</div>`)
+      }
+    </div>`;
+  }
+  list.innerHTML = rows;
+
+  list.querySelectorAll('.weight-input').forEach(inp=>{
+    inp.onchange = async ()=>{
+      const k = inp.getAttribute('data-wkey');
+      await setVal('weight:'+k, inp.value);
+      logAudit('وزن', inp.value + ' كغ');
+      showToast('تم حفظ الوزن ✅');
+    };
+  });
+}
+
+function renderRules(phase){
+  let rules = [];
+  if(phase.key==='p1') rules = PHASE1_RULES;
+  else if(phase.key==='p2') rules = PHASE2_RULES;
+  else if(phase.key==='p3') rules = [...PHASE3_RULES, 'السعرات المستهدفة: ' + PHASE3_TARGET_CAL];
+  else if(phase.key==='p4') rules = [...PHASE4_RULES, '— نصائح للطبخ —', ...COOKING_TIPS];
+  else rules = ['لم تبدأ خطة الحمية بعد حسب التاريخ المُدخل.'];
+
+  document.getElementById('rulesList').innerHTML = rules.map(r=>`<li>${r}</li>`).join('');
+}
+
+function renderFoods(phase){
+  const card = document.getElementById('foodCard');
+  const tabsEl = document.getElementById('foodTabs');
+  const contentEl = document.getElementById('foodTabContents');
+  let data = null;
+  if(phase.key==='p2') data = PHASE2_FOODS;
+  else if(phase.key==='p3') data = PHASE3_SUBS;
+
+  if(!data){ card.style.display='none'; return; }
+  card.style.display='block';
+
+  const keys = Object.keys(data);
+  tabsEl.innerHTML = keys.map((k,i)=>`<div class="tab ${i===0?'active':''}" data-k="${k}">${k}</div>`).join('');
+  contentEl.innerHTML = keys.map((k,i)=>`<div class="tab-content ${i===0?'active':''}" data-k="${k}">${data[k]}</div>`).join('');
+
+  tabsEl.querySelectorAll('.tab').forEach(t=>{
+    t.onclick = ()=>{
+      tabsEl.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+      contentEl.querySelectorAll('.tab-content').forEach(x=>x.classList.remove('active'));
+      t.classList.add('active');
+      contentEl.querySelector(`.tab-content[data-k="${t.getAttribute('data-k')}"]`).classList.add('active');
+    };
+  });
+}
+
+function renderActivity(dayNum){
+  let txt = '';
+  if(dayNum < 1){ txt = 'لم تبدأ الخطة بعد.'; }
+  else if(dayNum <= 21) txt = ACTIVITY_TEXT.early;
+  else if(dayNum <= 60) txt = ACTIVITY_TEXT.mid;
+  else txt = ACTIVITY_TEXT.late;
+  txt += '<br><br>' + ACTIVITY_TEXT.goal;
+  document.getElementById('activityText').innerHTML = txt;
+}
+
+// ---------------- NAV ----------------
+document.getElementById('prevDay').onclick = ()=>{
+  viewDate.setDate(viewDate.getDate()-1);
+  render();
+};
+document.getElementById('nextDay').onclick = ()=>{
+  viewDate.setDate(viewDate.getDate()+1);
+  render();
+};
+document.getElementById('today').onclick = ()=>{
+  viewDate = new Date(); viewDate.setHours(0,0,0,0);
+  render();
+};
+
+// ---------------- RESET DAY ----------------
+const overlay = document.getElementById('confirmOverlay');
+document.getElementById('resetDayBtn').onclick = ()=>{
+  overlay.classList.add('show');
+};
+document.getElementById('confirmCancel').onclick = ()=>{
+  overlay.classList.remove('show');
+};
+document.getElementById('confirmOk').onclick = async ()=>{
+  // Full reset: wipe every tracked key (all days) plus the profile itself.
+  try{
+    const prefixes = ['meals:', 'water:', 'protein:', 'vitamin:', 'weight:'];
+    for(const p of prefixes){
+      const keys = await listKeys(p);
+      for(const k of keys){
+        await deleteVal(k);
+      }
+    }
+    await deleteVal('profile');
+    await deleteVal('auditLog');
+    await deleteVal('reminders');
+    try{
+      await cancelWaterReminders();
+      await cancelVitaminReminder();
+      await cancelMealReminders();
+    }catch(e2){ /* noop */ }
+  }catch(e){
+    console.error('reset error', e);
+  }
+
+  overlay.classList.remove('show');
+  DISCHARGE_DATE = null;
+  showToast('اترجع كل حاجة للوضع الافتراضي ✓');
+  // clear onboarding form fields so it doesn't show stale data
+  ['obFirstName','obLastName','obWeightBefore'].forEach(id=>{
+    const el = document.getElementById(id); if(el) el.value = '';
+  });
+  document.getElementById('obDoctorName').value = 'د. إياد عيد';
+  document.getElementById('obDoctorPhone').value = '00962797002296';
+  document.getElementById('obSurgeryDate').value = '';
+  document.getElementById('obDischargeDate').value = '';
+  showOnboarding();
+};
+
+// ---------------- SAVE BUTTON ----------------
+document.getElementById('saveDayBtn').onclick = async ()=>{
+  // Re-persist everything currently shown on screen (belt-and-braces; taps already auto-save).
+  const iso = isoOf(viewDate);
+  const mealsKey = 'meals:'+iso;
+  const cur = (await getVal(mealsKey)) || {};
+  document.querySelectorAll('#mealsList .check').forEach(el=>{
+    const mkey = el.getAttribute('data-meal');
+    cur[mkey] = el.classList.contains('checked');
+  });
+  await setVal(mealsKey, cur);
+
+  // verify it actually landed in storage
+  const verify = await getVal(mealsKey);
+  if(verify){
+    showToast('تم الحفظ ✅');
+    logAudit('حفظ يدوي', 'تم حفظ وجبات اليوم');
+  } else {
+    showToast('⚠️ الحفظ لم ينجح على هذا المتصفح');
+  }
+  updateStorageStatus();
+};
+
+// ---------------- REPORTS / BACKUP / RESTORE BUTTONS ----------------
+document.getElementById('exportPdfBtn').onclick = exportPdfReport;
+document.getElementById('exportBackupBtn').onclick = exportBackupJson;
+document.getElementById('restoreBackupBtn').onclick = ()=>{
+  document.getElementById('restoreFileInput').click();
+};
+document.getElementById('restoreFileInput').onchange = (e)=>{
+  const file = e.target.files && e.target.files[0];
+  if(file) restoreBackupFromFile(file);
+  e.target.value = '';
+};
+wireReminderToggles();
+
+function updateStorageStatus(){
+  const el = document.getElementById('storageStatus');
+  if(!el) return;
+  el.textContent = HAS_LS
+    ? '✅ الحفظ على هذا الجهاز يعمل'
+    : '⚠️ هذا المتصفح لا يسمح بالحفظ — جربي فتح الملف من Safari مباشرة';
+}
+updateStorageStatus();
+
+bootApp();
+</script>
+</body>
+</html>
